@@ -1,4 +1,4 @@
-package ru.sberbank.jschool.homework.classloaders;
+package main.java.ru.sberbank.jschool.homework.classloaders;
 
 public class PluginNotFoundException extends ClassNotFoundException {
     public PluginNotFoundException(String s) {

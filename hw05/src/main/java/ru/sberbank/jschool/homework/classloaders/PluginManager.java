@@ -1,4 +1,4 @@
-package ru.sberbank.jschool.homework.classloaders;
+package main.java.ru.sberbank.jschool.homework.classloaders;
 
 public class PluginManager {
 
@@ -21,6 +21,26 @@ public class PluginManager {
      */
     public Plugin loadPlugin(String pluginName) throws PluginNotFoundException {
         //TODO implement
-        throw new PluginNotFoundException("couldn't locate plugin " + pluginName);
+
+        CustomClassLoader loader = new CustomClassLoader(rootDirectory);
+        try {
+            Class<?> c = loader.loadClass(pluginName);
+            return (Plugin) c.newInstance();
+
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            throw new PluginNotFoundException("couldn't locate plugin " + pluginName);
+        }
+    }
+
+
+    public Plugin loadPlugin(String pluginName, int offset) throws PluginNotFoundException {
+        CaesarClassLoader loader = new CaesarClassLoader(rootDirectory, offset);
+        try {
+            Class<?> c = loader.loadClass(pluginName);
+            return (Plugin) c.newInstance();
+
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            throw new PluginNotFoundException("couldn't locate plugin " + pluginName);
+        }
     }
 }
